@@ -1,0 +1,13 @@
+import React from "react";
+import { MenuItemProps } from "../NavBar/props";
+import Link from "next/link";
+
+const FooterLink: React.FC<MenuItemProps> = ({ text, href }) => {
+  return (
+    <li>
+      <Link href={href}>{text}</Link>
+    </li>
+  );
+};
+
+export default FooterLink;
