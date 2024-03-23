@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import MenuButton from "../buttons/MenuButton";
 import Logo from "../Logo";
-import DesktopMenuLeft from "./DesktopMenuLeft";
-import DekstopRightMenu from "./DekstopRightMenu";
-import MobileMenu from "./MobileMenu";
+import DesktopMenuLeft from "./components/DesktopMenuLeft";
+import DekstopRightMenu from "./components/DekstopRightMenu";
+import MobileMenu from "./components/MobileMenu";
 import { FaGoogle } from "react-icons/fa";
 import AuthButton from "../buttons/AuthButton";
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
       requiresAuth: true,
     },
   ];
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,8 +41,6 @@ const Navbar = () => {
             <Logo />
             <DesktopMenuLeft items={desktopLeftItems} />
           </div>
-
-          {/* <!-- Right Side Menu (Logged Out) --> */}
           {!isLoggedIn && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">

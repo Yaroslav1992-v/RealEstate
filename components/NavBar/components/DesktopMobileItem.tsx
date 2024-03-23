@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { MenuItemProps } from "./props";
+import { MenuItemProps } from "../props";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-export const DekstopLeftItem: React.FC<MenuItemProps> = ({
-  href,
+export const DesktopMobileItem: React.FC<MenuItemProps> = ({
   text,
+  href,
   requiresAuth,
 }) => {
   const pathName = usePathname();
@@ -16,7 +15,7 @@ export const DekstopLeftItem: React.FC<MenuItemProps> = ({
     >
       <Link
         href={href}
-        className={`text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 ${
+        className={`text-white w-full hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 ${
           pathName === href ? "bg-black" : ""
         }`}
       >

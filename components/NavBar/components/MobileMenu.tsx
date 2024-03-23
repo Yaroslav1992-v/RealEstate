@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { MenuItemProps } from "./props";
+import { MenuItemProps } from "../props";
 import { DesktopMobileItem } from "./DesktopMobileItem";
-import AuthButton from "../buttons/AuthButton";
+import AuthButton from "../../buttons/AuthButton";
 const MobileMenu: React.FC<{ items: MenuItemProps[] }> = ({ items }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   return (

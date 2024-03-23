@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItemProps } from "./props";
+import { MenuItemProps } from "../props";
 import { DekstopLeftItem } from "./DekstopLeftItem";
 
 const DesktopMenuLeft: React.FC<{ items: MenuItemProps[] }> = ({ items }) => {
