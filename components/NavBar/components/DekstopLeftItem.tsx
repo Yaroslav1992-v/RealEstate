@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { MenuItemProps } from "../props";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-export const DekstopLeftItem: React.FC<MenuItemProps> = ({
-  href,
+import { MenuItems } from "../props";
+export const DekstopLeftItem: React.FC<MenuItems> = ({
+  action,
   text,
   requiresAuth,
 }) => {
@@ -15,9 +15,9 @@ export const DekstopLeftItem: React.FC<MenuItemProps> = ({
       className={`${requiresAuth ? (isLoggedIn ? "flex" : "hidden") : "flex"}`}
     >
       <Link
-        href={href}
+        href={action}
         className={`text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 ${
-          pathName === href ? "bg-black" : ""
+          pathName === action ? "bg-black" : ""
         }`}
       >
         {text}

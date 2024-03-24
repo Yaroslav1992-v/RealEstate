@@ -1,7 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import profileDefault from "@/assets/images/profile.png";
-const UserProfileBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const UserProfileBtn: React.FC<{ onClick: () => void; image?: string }> = ({
+  onClick,
+  image,
+}) => {
   return (
     <button
       onClick={onClick}
@@ -15,8 +18,10 @@ const UserProfileBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => {
       <span className="sr-only">Open user menu</span>
       <Image
         className="h-8 w-8 rounded-full"
-        src={profileDefault}
+        src={image || profileDefault}
         alt="profile"
+        width={40}
+        height={40}
       />
     </button>
   );

@@ -1,16 +1,16 @@
 import React from "react";
-import { MenuItemProps } from "../props";
 import { DekstopLeftItem } from "./DekstopLeftItem";
+import { MenuItems } from "../props";
 
-const DesktopMenuLeft: React.FC<{ items: MenuItemProps[] }> = ({ items }) => {
+const DesktopMenuLeft: React.FC<{ items: MenuItems[] }> = ({ items }) => {
   return (
     <div className="hidden md:ml-6 md:block">
       <ul className="flex space-x-2">
-        {items.map((item) => (
+        {items.map((item, i) => (
           <DekstopLeftItem
-            href={item.href}
+            action={item.action}
             text={item.text}
-            key={item.href}
+            key={item.text + i}
             requiresAuth={item.requiresAuth}
           ></DekstopLeftItem>
         ))}

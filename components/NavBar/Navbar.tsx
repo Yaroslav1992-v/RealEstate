@@ -1,37 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { Provider, useEffect, useState } from "react";
 import MenuButton from "../buttons/MenuButton";
 import Logo from "../Logo";
 import DesktopMenuLeft from "./components/DesktopMenuLeft";
 import DekstopRightMenu from "./components/DekstopRightMenu";
 import MobileMenu from "./components/MobileMenu";
-import { FaGoogle } from "react-icons/fa";
 import AuthButton from "../buttons/AuthButton";
+import { getProviders, signIn, useSession } from "next-auth/react";
+import { AuthProvider } from "./props";
+
 const Navbar = () => {
+  const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobalMenuOpen] = useState<boolean>(false);
-  const [isProfileMenuOpen, setsProfileMenuOpen] = useState<boolean>(false);
   const openMobalMenu = () => {
     setIsMobalMenuOpen((prev) => !prev);
   };
   const desktopLeftItems = [
     {
       text: "Home",
-      href: "/",
+      action: "/",
       requiresAuth: false,
     },
     {
       text: "Properties",
-      href: "/properties",
+      action: "/properties",
       requiresAuth: false,
     },
 
     {
       text: "Add Property",
-      href: "/add-property",
+      action: "/add-property",
       requiresAuth: true,
     },
   ];
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [providers, setProviders] = useState<AuthProvider | null>(null);
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const res = await getProviders();
+      setProviders(res as unknown as AuthProvider);
+    };
+    setAuthProviders();
+  }, []);
+
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,17 +51,27 @@ const Navbar = () => {
             <Logo />
             <DesktopMenuLeft items={desktopLeftItems} />
           </div>
-          {!isLoggedIn && (
+          {!session && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">
-                <AuthButton />
+                {providers &&
+                  Object.values(providers).map((p, i) => (
+                    <AuthButton onClick={signIn} key={i} provider={providers} />
+                  ))}
               </div>
             </div>
           )}
-          {isLoggedIn && <DekstopRightMenu />}
+          {session && (
+            <DekstopRightMenu image={session.user?.image || undefined} />
+          )}
         </div>
       </div>
-      {isMobileMenuOpen && <MobileMenu items={desktopLeftItems} />}
+      {isMobileMenuOpen && (
+        <MobileMenu
+          provider={providers || undefined}
+          items={desktopLeftItems}
+        />
+      )}
     </nav>
   );
 };

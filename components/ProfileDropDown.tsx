@@ -1,11 +1,14 @@
 import React from "react";
 import ProfileDropDownItem from "./ProfileDropDownItem";
 
-const ProfileDropDown = () => {
+const ProfileDropDown: React.FC<{
+  onClick: () => void;
+  closeMenu: () => void;
+}> = ({ onClick, closeMenu }) => {
   const dropDownMenu = [
-    { href: "/profile", text: "Your Profile" },
-    { href: "/saved-properties", text: "Saved Properties" },
-    { href: "/sign-Out", text: "Sign Out" },
+    { text: "Your Profile", action: closeMenu },
+    { action: "/saved-properties", text: "Saved Properties" },
+    { action: onClick, text: "Sign Out" },
   ];
   return (
     <ul
@@ -17,7 +20,7 @@ const ProfileDropDown = () => {
       tabIndex={-1}
     >
       {dropDownMenu.map((d, i) => (
-        <ProfileDropDownItem key={i + d.href} items={d} />
+        <ProfileDropDownItem key={i + d.text} items={d} />
       ))}
     </ul>
   );

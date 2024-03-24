@@ -35,3 +35,9 @@ export interface Property {
   createdAt: string;
   updatedAt: string;
 }
+export interface UserData {
+  email: string;
+  username: string;
+  image?: string;
+  bookmarks: string[];
+}

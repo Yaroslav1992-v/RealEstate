@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import "@/assets/styles/globals.css";
 import Navbar from "@/components/NavBar/Navbar";
 import Footer from "@/components/Footer/Footer";
+import AuthProvider from "@/components/AuthProvider";
 export const metadata = {
   title: "Yarik's Agency Find The Perfect Rental",
   description: "Find your dream rental property",
@@ -12,13 +13,15 @@ interface MainLayoutProps {
 }
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <html lang="en">
-      <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </AuthProvider>
   );
 };
 

@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { MenuItemProps } from "../props";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-export const DesktopMobileItem: React.FC<MenuItemProps> = ({
+import { MenuItems } from "../props";
+import { useSession } from "next-auth/react";
+export const DesktopMobileItem: React.FC<MenuItems> = ({
   text,
-  href,
+  action,
   requiresAuth,
 }) => {
   const pathName = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { data: session } = useSession();
   return (
-    <li
-      className={`${requiresAuth ? (isLoggedIn ? "flex" : "hidden") : "flex"}`}
-    >
+    <li className={`${requiresAuth ? (session ? "flex" : "hidden") : "flex"}`}>
       <Link
-        href={href}
+        href={action}
         className={`text-white w-full hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 ${
-          pathName === href ? "bg-black" : ""
+          pathName === action ? "bg-black" : ""
         }`}
       >
         {text}
