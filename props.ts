@@ -41,3 +41,51 @@ export interface UserData {
   image?: string;
   bookmarks: string[];
 }
+export interface newPropertyData extends Omit<Property, "_id"> {}
+export const emptyProperty: newPropertyData = {
+  owner: "",
+  type: "",
+  name: "",
+  description: "",
+  location: {
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  },
+  beds: 0,
+  baths: 0,
+  square_feet: 0,
+  amenities: [],
+  rates: {
+    nightly: 0,
+    weekly: 0,
+    monthly: 0,
+  },
+  seller_info: {
+    name: "",
+    email: "",
+    phone: "",
+  },
+  images: [],
+  is_featured: false,
+  createdAt: "",
+  updatedAt: "",
+};
+export const amenities = [
+  "Wifi",
+  "Full kitchen",
+  "Washer & Dryer",
+  "Free Parking",
+  "Swimming Pool",
+  "Hot Tub",
+  "24/7 Security",
+  "Wheelchair Accessible",
+  "Elevator Access",
+  "Dishwasher",
+  "Gym/Fitness Center",
+  "Air Conditioning",
+  "Balcony/Patio",
+  "Smart TV",
+  "Coffee Maker",
+];

@@ -8,6 +8,7 @@ import PropertyHeaderImage from "@/components/Property/PropertyHeaderImage";
 import GoBack from "@/components/GoBack";
 import PropertyC from "@/components/Property/Property";
 import Spinner from "@/components/Spinner";
+import PropertyImages from "@/components/Property/PropertyImages";
 
 const PropertyPage = () => {
   const { id } = useParams();
@@ -46,6 +47,7 @@ const PropertyPage = () => {
           <PropertyHeaderImage image={property.images[0]} />
           <GoBack />
           <PropertyC property={property} />
+          <PropertyImages images={property.images} />
         </>
       )}
     </>

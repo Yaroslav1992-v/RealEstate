@@ -29,7 +29,7 @@ const Navbar = () => {
 
     {
       text: "Add Property",
-      action: "/add-property",
+      action: "/properties/add",
       requiresAuth: true,
     },
   ];

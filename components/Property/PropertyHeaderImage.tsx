@@ -7,7 +7,7 @@ const PropertyHeaderImage: React.FC<{ image: string }> = ({ image }) => {
       <div className="container-xl m-auto">
         <div className="grid grid-cols-1">
           <Image
-            src={`/images/properties/${image}`}
+            src={image}
             alt="image property"
             className="object-cover h-[400px] w-full"
             width={0}

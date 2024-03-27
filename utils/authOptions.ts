@@ -2,12 +2,11 @@ import { NextAuthOptions } from "next-auth";
 import connectDB from "@/config/database";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/models/User";
-interface SessionUser {
+export interface SessionUser {
   id: string;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  // Add other properties if necessary
 }
 export const authOptions: NextAuthOptions = {
   providers: [

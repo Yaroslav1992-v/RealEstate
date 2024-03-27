@@ -1,15 +1,15 @@
 import React from "react";
 import Select from "./Select";
 const options = [
-  "All",
-  "Apartment",
-  "Studio",
-  "Condo",
-  "House",
-  "Cabin or Cottage",
-  "Loft",
-  "Room",
-  "Other",
+  { value: "All", label: "All" },
+  { value: "Apartment", label: "Apartment" },
+  { value: "Studio", label: "Studio" },
+  { value: "Condo", label: "Condo" },
+  { value: "House", label: "House" },
+  { value: "Cabin or Cottage", label: "Cabin or Cottage" },
+  { value: "Loft", label: "Loft" },
+  { value: "Room", label: "Room" },
+  { value: "Other", label: "Other" },
 ];
 const SearchForm = () => {
   return (
@@ -25,7 +25,7 @@ const SearchForm = () => {
           className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-blue-500"
         />
       </div>
-      <Select values={options} />
+      {/* <Select options={options} onChange={() => {}} /> */}
       <button
         type="submit"
         className="md:ml-4 mt-4 md:mt-0 w-full md:w-auto px-6 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500"
