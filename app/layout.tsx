@@ -3,6 +3,8 @@ import "@/assets/styles/globals.css";
 import Navbar from "@/components/NavBar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import AuthProvider from "@/components/AuthProvider";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 export const metadata = {
   title: "Yarik's Agency Find The Perfect Rental",
   description: "Find your dream rental property",
@@ -19,6 +21,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <ToastContainer />
         </body>
       </html>
     </AuthProvider>

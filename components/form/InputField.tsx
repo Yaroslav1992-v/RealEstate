@@ -9,6 +9,7 @@ const InputField: React.FC<InputProps> = ({
   type = "text",
   label,
   className,
+  value,
 }) => {
   const renderInput = () => {
     return (
@@ -18,6 +19,7 @@ const InputField: React.FC<InputProps> = ({
         name={name}
         className="border rounded w-full py-2 px-3 mb-2 capitalize"
         placeholder={placeholder}
+        value={value}
         required={required}
         onChange={onChange}
       />

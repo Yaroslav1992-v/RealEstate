@@ -1,22 +1,33 @@
 "use client";
-import { amenities, emptyProperty, newPropertyData } from "@/props";
+import { Property, amenities, propertyWithId } from "@/props";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Select from "./Select";
 import { propertyTypes } from "./props";
 import InputField from "./InputField";
 import TextArea from "./TextArea";
 import CheckBoxField from "./CheckBoxField";
-import ImageField from "./ImageField";
+import { useRouter, useParams } from "next/navigation";
 import propertyService from "@/services/propertyService";
-import { useRouter } from "next/navigation";
-
-const PropertyAddForm = () => {
+import { toast } from "react-toastify";
+export const PropertyEditForm = () => {
+  const { id } = useParams();
   const [mounted, setMounted] = useState<boolean>(false);
   const router = useRouter();
-  const [fields, setFields] = useState<newPropertyData>(emptyProperty);
-  const [images, setImages] = useState<File[]>([]);
+  const [fields, setFields] = useState<Property>(propertyWithId);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     setMounted(true);
+
+    const fetchPropertyData = async (id: string) => {
+      const property = await propertyService.loadProperty(id);
+      if (property) {
+        setLoading(false);
+        setFields(property);
+      }
+    };
+    if (!fields.name && id) {
+      fetchPropertyData(typeof id === "string" ? id : id[0]);
+    }
   }, []);
   const handleChange = (
     event: ChangeEvent<
@@ -24,7 +35,6 @@ const PropertyAddForm = () => {
     >
   ) => {
     const { target } = event;
-    console.log(target.name);
     if (target.name.includes(".")) {
       const [outerKey, innerKey] = target.name.split(".");
       setFields((prev) => ({
@@ -51,26 +61,22 @@ const PropertyAddForm = () => {
       amenities: [...updatedAmenities],
     }));
   };
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target;
-    if (!files) {
-      return;
-    }
-    const fileListArray = [...images, ...Array.from(files)];
-    setImages(fileListArray);
-  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const newProperty = await propertyService.createProperty(fields, images);
-    if (newProperty) {
-      router.push(`${newProperty._id}`);
+    const res = await propertyService.updateProperty(fields);
+    if (res) {
+      toast.success("Property Updated");
+      router.push(`/properties/${res._id}`);
     }
   };
+  console.log(fields);
   return (
-    mounted && (
+    mounted &&
+    !loading && (
       <form onSubmit={handleSubmit} className="w-full">
         <h2 className="text-3xl text-center font-semibold mb-6">
-          Add Property
+          Edit Property
         </h2>
         {
           <Select
@@ -98,20 +104,20 @@ const PropertyAddForm = () => {
         />
         <div className="mb-4 bg-blue-50 p-4">
           <label className="block text-gray-700 font-bold mb-2">Location</label>
-          {Object.keys(fields.location).map((f) => (
+          {Object.keys(fields.location).map((f: string) => (
             <InputField
               key={f}
               name={`location.${f}`}
               onChange={handleChange}
               placeholder={f}
               required
-              value=""
+              value={(fields.location as any)[f]}
             />
           ))}
         </div>
         <div className="mb-4 flex flex-wrap">
           <InputField
-            value=""
+            value={fields.beds.toString()}
             name={"beds"}
             type={"number"}
             onChange={handleChange}
@@ -119,7 +125,7 @@ const PropertyAddForm = () => {
             className="w-full sm:w-1/3 pr-2"
           />
           <InputField
-            value=""
+            value={fields.baths.toString()}
             name={"baths"}
             type={"number"}
             onChange={handleChange}
@@ -127,7 +133,7 @@ const PropertyAddForm = () => {
             className="w-full sm:w-1/3 pr-2"
           />
           <InputField
-            value=""
+            value={fields.square_feet.toString()}
             name={"square_feet"}
             type={"number"}
             onChange={handleChange}
@@ -166,7 +172,7 @@ const PropertyAddForm = () => {
                 key={r}
                 className="flex items-center"
                 onChange={handleChange}
-                value={r}
+                value={(fields.rates as any)[r] || 0}
               />
             ))}
           </div>
@@ -179,24 +185,18 @@ const PropertyAddForm = () => {
             label={s}
             key={s}
             onChange={handleChange}
-            value={s}
+            value={(fields.seller_info as any)[s]}
           />
         ))}
-        <ImageField
-          onChange={handleImageChange}
-          label="Images (Select up to 4 images)"
-        />
         <div>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Add Property
+            Edit Property
           </button>
         </div>
       </form>
     )
   );
 };
-
-export default PropertyAddForm;

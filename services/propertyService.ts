@@ -16,13 +16,56 @@ const propertyService = {
   createProperty: async (
     property: newPropertyData,
     images: File[]
-  ): Promise<Property> => {
+  ): Promise<Property | undefined> => {
     const convertedImages = await convertImages(images);
-    const { data } = await httpService.post(`/api/properties`, {
-      property,
-      images: convertedImages,
-    });
-    return data;
+    try {
+      const { data } = await httpService.post(`/api/properties`, {
+        property,
+        images: convertedImages,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  loadUserProperties: async (
+    userId: string
+  ): Promise<Property[] | undefined> => {
+    try {
+      const { data } = await httpService.get(`/api/properties/user/${userId}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  loadProperty: async (id: string): Promise<Property | undefined> => {
+    try {
+      const { data } = await httpService.get(`/api/properties/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteProperty: async (
+    id: string
+  ): Promise<{ data: string; status: number } | undefined> => {
+    try {
+      const data = await httpService.delete(`/api/properties/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  updateProperty: async (property: Property): Promise<Property | undefined> => {
+    try {
+      const { data } = await httpService.put(
+        `/api/properties/${property._id}`,
+        property
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

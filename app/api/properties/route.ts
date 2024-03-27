@@ -50,6 +50,3 @@ export const POST = async (
     return new Response("failed to add property", { status: 500 });
   }
 };
-function nextConnect<T, U>() {
-  throw new Error("Function not implemented.");
-}

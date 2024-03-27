@@ -2,7 +2,12 @@
 import React from "react";
 import { SelectProps } from "./props";
 
-const Select: React.FC<SelectProps> = ({ options, onChange, name }) => {
+const Select: React.FC<SelectProps> = ({
+  options,
+  onChange,
+  name,
+  defaultProperty,
+}) => {
   return (
     <div className="w-full md:w-2/5 md:pl-2">
       <label htmlFor="property-type" className="sr-only">
@@ -10,7 +15,7 @@ const Select: React.FC<SelectProps> = ({ options, onChange, name }) => {
       </label>
       <select
         id="property-type"
-        defaultValue={options[0].value}
+        defaultValue={defaultProperty}
         name={name}
         onChange={onChange}
         className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-blue-500"

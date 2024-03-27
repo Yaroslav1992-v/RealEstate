@@ -62,7 +62,10 @@ const Navbar = () => {
             </div>
           )}
           {session && (
-            <DekstopRightMenu image={session.user?.image || undefined} />
+            <DekstopRightMenu
+              id={(session.user?.id as any) || ""}
+              image={session.user?.image || undefined}
+            />
           )}
         </div>
       </div>

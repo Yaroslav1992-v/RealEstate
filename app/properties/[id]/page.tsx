@@ -20,7 +20,9 @@ const PropertyPage = () => {
         return;
       }
       try {
-        const property = await fetchProperty(id[0]);
+        const property = await fetchProperty(
+          typeof id === "string" ? id : id[0]
+        );
         setProperty(property);
       } catch (error) {
         console.log("fetch error", error);

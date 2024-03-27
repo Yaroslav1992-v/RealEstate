@@ -5,6 +5,7 @@ export interface SelectProps {
     label: string;
   }[];
   name: string;
+  defaultProperty: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 export interface InputProps {

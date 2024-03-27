@@ -3,10 +3,17 @@ import ProfileDropDown from "../../ProfileDropDown";
 import { NotificationBtn } from "./NotificationBtn";
 import UserProfileBtn from "./UserProfileBtn";
 import { signOut } from "next-auth/react";
-const DekstopRightMenu: React.FC<{ image?: string }> = ({ image }) => {
+import { useRouter } from "next/navigation";
+
+const DekstopRightMenu: React.FC<{ image?: string; id: string }> = ({
+  image,
+  id,
+}) => {
   const [isProfileMenuOpen, setsProfileMenuOpen] = useState<boolean>(false);
+  const router = useRouter();
   const openProfileDropDown = () => {
     setsProfileMenuOpen((prev) => !prev);
+    router.push(`/profile/${id}`);
   };
   const handleSignOut = () => {
     signOut();

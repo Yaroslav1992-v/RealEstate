@@ -72,6 +72,37 @@ export const emptyProperty: newPropertyData = {
   createdAt: "",
   updatedAt: "",
 };
+export const propertyWithId = {
+  _id: "",
+  owner: "",
+  type: "",
+  name: "",
+  description: "",
+  location: {
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  },
+  beds: 0,
+  baths: 0,
+  square_feet: 0,
+  amenities: [],
+  rates: {
+    nightly: 0,
+    weekly: 0,
+    monthly: 0,
+  },
+  seller_info: {
+    name: "",
+    email: "",
+    phone: "",
+  },
+  images: [],
+  is_featured: false,
+  createdAt: "",
+  updatedAt: "",
+};
 export const amenities = [
   "Wifi",
   "Full kitchen",
