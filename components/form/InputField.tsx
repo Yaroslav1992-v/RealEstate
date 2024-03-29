@@ -1,5 +1,6 @@
 import React from "react";
 import { InputProps } from "./props";
+import { ErrorMsg } from "../ErrorMsg";
 
 const InputField: React.FC<InputProps> = ({
   onChange,
@@ -10,21 +11,30 @@ const InputField: React.FC<InputProps> = ({
   label,
   className,
   value,
+  error,
+  onlyColor,
 }) => {
   const renderInput = () => {
     return (
-      <input
-        type={type}
-        id={name}
-        name={name}
-        className="border rounded w-full py-2 px-3 mb-2 capitalize"
-        placeholder={placeholder}
-        value={value}
-        required={required}
-        onChange={onChange}
-      />
+      <>
+        <input
+          type={type}
+          id={name}
+          name={name}
+          className={
+            "border rounded w-full py-2 px-3 mb-2 capitalize " +
+            (error || onlyColor ? "border-red-500 mb-2" : "border-gray-300")
+          }
+          placeholder={placeholder}
+          value={value}
+          required={required}
+          onChange={onChange}
+        />
+        {error && <ErrorMsg text={error} />}
+      </>
     );
   };
+
   if (label) {
     return (
       <div className={className ? className : "mb-4"}>

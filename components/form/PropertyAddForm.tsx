@@ -2,19 +2,25 @@
 import { amenities, emptyProperty, newPropertyData } from "@/props";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Select from "./Select";
-import { propertyTypes } from "./props";
+import { PropertyFormErrors, propertyTypes } from "./props";
 import InputField from "./InputField";
 import TextArea from "./TextArea";
 import CheckBoxField from "./CheckBoxField";
 import ImageField from "./ImageField";
 import propertyService from "@/services/propertyService";
 import { useRouter } from "next/navigation";
-
+import { checkForsErros } from "@/utils/Validator/validator";
+import { ErrorMsg } from "../ErrorMsg";
+import Spinner from "../Spinner";
+import { toast } from "react-toastify";
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const router = useRouter();
   const [fields, setFields] = useState<newPropertyData>(emptyProperty);
   const [images, setImages] = useState<File[]>([]);
+  const [errors, setErrors] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -61,9 +67,27 @@ const PropertyAddForm = () => {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const newProperty = await propertyService.createProperty(fields, images);
-    if (newProperty) {
-      router.push(`${newProperty._id}`);
+
+    const error = checkForsErros(fields, images.length);
+    if (Object.keys(error).length !== 0) {
+      setErrors(error);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const newProperty = await propertyService.createProperty(fields, images);
+      if (newProperty) {
+        router.push(`${newProperty._id}`);
+      }
+    } catch (error: any) {
+      const msg = error?.response?.data
+        ? error.response.data
+        : "failed to add property";
+      toast.error(msg);
+      setIsLoading(false);
+    } finally {
+      toast.success("Property added succesfully, redirecting to property ");
+      setIsLoading(false);
     }
   };
   return (
@@ -78,15 +102,16 @@ const PropertyAddForm = () => {
             name={"type"}
             onChange={handleChange}
             defaultProperty={fields.type}
+            className="md:w-full"
           />
         }
         <InputField
           onChange={handleChange}
-          placeholder="Property Nmae"
+          placeholder="Property Name"
           name="name"
           value={fields.name}
-          required
           label="Property Name"
+          error={errors?.name || undefined}
         />
         <TextArea
           label="Description"
@@ -95,6 +120,7 @@ const PropertyAddForm = () => {
           value={fields.description}
           rows={4}
           placeholder="Add an optional description of your property"
+          error={errors?.description || ""}
         />
         <div className="mb-4 bg-blue-50 p-4">
           <label className="block text-gray-700 font-bold mb-2">Location</label>
@@ -104,42 +130,45 @@ const PropertyAddForm = () => {
               name={`location.${f}`}
               onChange={handleChange}
               placeholder={f}
-              required
-              value=""
+              value={(fields.location as any)[f]}
+              error={(errors && (errors as any)[f]) || undefined}
             />
           ))}
         </div>
         <div className="mb-4 flex flex-wrap">
           <InputField
-            value=""
+            value={fields.beds.toString()}
             name={"beds"}
             type={"number"}
             onChange={handleChange}
             label={"Beds"}
             className="w-full sm:w-1/3 pr-2"
+            error={errors?.beds || undefined}
           />
           <InputField
-            value=""
+            value={fields.baths.toString()}
             name={"baths"}
             type={"number"}
             onChange={handleChange}
             label={"baths"}
             className="w-full sm:w-1/3 pr-2"
+            error={errors?.baths || undefined}
           />
           <InputField
-            value=""
+            value={fields.square_feet.toString()}
             name={"square_feet"}
             type={"number"}
             onChange={handleChange}
             label={"Square Feet"}
             className="w-full sm:w-1/3 pr-2"
+            error={errors?.square_feet || undefined}
           />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">
             Amenities
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-2">
             {amenities.map((a, i) => (
               <CheckBoxField
                 name={a}
@@ -151,6 +180,7 @@ const PropertyAddForm = () => {
               />
             ))}
           </div>
+          {errors?.amenities && <ErrorMsg text={errors.amenities} />}
         </div>
         <div className="mb-4 bg-blue-50 p-4">
           <label className="block text-gray-700 font-bold mb-2">
@@ -166,10 +196,12 @@ const PropertyAddForm = () => {
                 key={r}
                 className="flex items-center"
                 onChange={handleChange}
-                value={r}
+                value={(fields.rates as any)[r]}
+                onlyColor={errors && errors.rates && true}
               />
             ))}
           </div>
+          {errors?.rates && <ErrorMsg text={errors.rates} />}
         </div>
         <h3 className="block text-gray-700 font-bold mb-2">Seller Info</h3>
         {Object.keys(fields.seller_info).map((s) => (
@@ -179,20 +211,26 @@ const PropertyAddForm = () => {
             label={s}
             key={s}
             onChange={handleChange}
-            value={s}
+            value={(fields.seller_info as any)[s]}
+            error={errors && (s === "name" ? errors["sellerName"] : errors[s])}
           />
         ))}
         <ImageField
           onChange={handleImageChange}
           label="Images (Select up to 4 images)"
+          error={errors?.images ? "At Least One Image Is Required" : ""}
         />
         <div>
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Add Property
-          </button>
+          {isLoading ? (
+            <Spinner loading={isLoading} size={50} />
+          ) : (
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Add Property
+            </button>
+          )}
         </div>
       </form>
     )

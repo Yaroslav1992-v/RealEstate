@@ -7,9 +7,10 @@ const Select: React.FC<SelectProps> = ({
   onChange,
   name,
   defaultProperty,
+  className,
 }) => {
   return (
-    <div className="w-full md:w-2/5 md:pl-2">
+    <div className={"w-full  md:pl-2 " + className ? className : "md:w-2/5"}>
       <label htmlFor="property-type" className="sr-only">
         Property Type
       </label>
@@ -18,7 +19,7 @@ const Select: React.FC<SelectProps> = ({
         defaultValue={defaultProperty}
         name={name}
         onChange={onChange}
-        className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-blue-500"
+        className="w-full px-4 border py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-blue-500"
       >
         {options.map((v, i) => (
           <option key={v.label + i} value={v.value}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { TextAreaProps } from "./props";
+import { ErrorMsg } from "../ErrorMsg";
 
 const TextArea: React.FC<TextAreaProps> = ({
   label,
@@ -8,6 +9,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   value,
   name,
   rows,
+  error,
 }) => {
   return (
     <div className="mb-4">
@@ -22,7 +24,8 @@ const TextArea: React.FC<TextAreaProps> = ({
         rows={rows}
         value={value}
         placeholder={placeholder}
-      ></textarea>
+      ></textarea>{" "}
+      {error && <ErrorMsg text={error} />}
     </div>
   );
 };

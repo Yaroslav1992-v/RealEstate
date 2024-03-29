@@ -44,7 +44,7 @@ export interface UserData {
 export interface newPropertyData extends Omit<Property, "_id"> {}
 export const emptyProperty: newPropertyData = {
   owner: "",
-  type: "",
+  type: "Apartment",
   name: "",
   description: "",
   location: {

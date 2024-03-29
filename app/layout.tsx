@@ -15,16 +15,17 @@ interface MainLayoutProps {
 }
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <ToastContainer />
-        </body>
-      </html>
-    </AuthProvider>
+      <AuthProvider>
+          <html lang="en">
+            <body>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+              <ToastContainer />
+            </body>
+          </html>
+      </AuthProvider>
+ 
   );
 };
 

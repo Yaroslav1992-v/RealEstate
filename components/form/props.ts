@@ -7,6 +7,7 @@ export interface SelectProps {
   name: string;
   defaultProperty: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  className?: string;
 }
 export interface InputProps {
   value: string;
@@ -15,10 +16,12 @@ export interface InputProps {
   ) => void;
   placeholder?: string;
   name: string;
+  className?: string;
   required?: boolean;
   label?: string;
   type?: string;
-  className?: string;
+  error?: string;
+  onlyColor?: boolean;
 }
 export interface CheckBoxProps extends Omit<InputProps, "onChange"> {
   label: string;
@@ -28,6 +31,7 @@ export interface CheckBoxProps extends Omit<InputProps, "onChange"> {
 export interface ImageFieldProps {
   label: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 export interface TextAreaProps extends InputProps {
   label: string;
@@ -42,3 +46,20 @@ export const propertyTypes = [
   { value: "Studio", label: "Studio" },
   { value: "Other", label: "Other" },
 ];
+export interface PropertyFormErrors {
+  type?: string;
+  name: string;
+  description: string;
+  sellerName: string;
+  email: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  rates: string;
+  amenities: string;
+  beds: string;
+  baths: string;
+  square_feet: string;
+}

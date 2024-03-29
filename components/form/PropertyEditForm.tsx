@@ -84,6 +84,7 @@ export const PropertyEditForm = () => {
             name={"type"}
             onChange={handleChange}
             defaultProperty={fields.type}
+            className="md:w-full"
           />
         }
         <InputField

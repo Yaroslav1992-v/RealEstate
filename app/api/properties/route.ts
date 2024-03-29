@@ -46,7 +46,7 @@ export const POST = async (
     await newP.save();
     return new Response(JSON.stringify(newP), { status: 200 });
   } catch (error) {
-    console.error("Error parsing JSON:", error);
-    return new Response("failed to add property", { status: 500 });
+    console.error("Error parsing JSON:");
+    return new Response(error as string, { status: 500 });
   }
 };

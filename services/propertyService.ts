@@ -18,15 +18,11 @@ const propertyService = {
     images: File[]
   ): Promise<Property | undefined> => {
     const convertedImages = await convertImages(images);
-    try {
-      const { data } = await httpService.post(`/api/properties`, {
-        property,
-        images: convertedImages,
-      });
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await httpService.post(`/api/properties`, {
+      property,
+      images: convertedImages,
+    });
+    return data;
   },
   loadUserProperties: async (
     userId: string
@@ -45,6 +41,10 @@ const propertyService = {
     } catch (error) {
       console.log(error);
     }
+  },
+  loadProperties: async (): Promise<Property[]> => {
+    const { data } = await httpService.get(`/api/properties`);
+    return data;
   },
   deleteProperty: async (
     id: string
