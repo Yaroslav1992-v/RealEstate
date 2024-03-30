@@ -3,6 +3,7 @@ import React from "react";
 import PropertyApartment from "./PropertyApartment";
 import PropertyDescription from "./PropertyDescription";
 import PropertyAmenities from "./PropertyAmenities";
+import PropertyMap from "./PropertyMap";
 
 const PropertyDetailts: React.FC<{ property: Property }> = ({ property }) => {
   return (
@@ -25,7 +26,7 @@ const PropertyDetailts: React.FC<{ property: Property }> = ({ property }) => {
         {<PropertyAmenities items={property.amenities} />}
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <div id="map"></div>
+        <PropertyMap property={property} />
       </div>
     </div>
   );

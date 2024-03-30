@@ -50,6 +50,7 @@ const PropertyPage = () => {
           <GoBack />
           <PropertyC property={property} />
           <PropertyImages images={property.images} />
+          
         </>
       )}
     </>

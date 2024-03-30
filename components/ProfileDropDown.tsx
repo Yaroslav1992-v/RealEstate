@@ -7,7 +7,7 @@ const ProfileDropDown: React.FC<{
 }> = ({ onClick, closeMenu }) => {
   const dropDownMenu = [
     { text: "Your Profile", action: closeMenu },
-    { action: "/saved-properties", text: "Saved Properties" },
+    { action: "/properties/saved", text: "Saved Properties" },
     { action: onClick, text: "Sign Out" },
   ];
   return (

@@ -30,7 +30,6 @@ const PropertyAddForm = () => {
     >
   ) => {
     const { target } = event;
-    console.log(target.name);
     if (target.name.includes(".")) {
       const [outerKey, innerKey] = target.name.split(".");
       setFields((prev) => ({
