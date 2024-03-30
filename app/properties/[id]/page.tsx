@@ -47,10 +47,9 @@ const PropertyPage = () => {
       {property && !loading && (
         <>
           <PropertyHeaderImage image={property.images[0]} />
-          <GoBack />
+          <GoBack href="/properties" text="Back to Properties" />
           <PropertyC property={property} />
           <PropertyImages images={property.images} />
-          
         </>
       )}
     </>

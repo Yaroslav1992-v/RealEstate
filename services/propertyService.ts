@@ -42,6 +42,15 @@ const propertyService = {
       console.log(error);
     }
   },
+  searchProperties: async (
+    location: string,
+    propertyType: string
+  ): Promise<Property[]> => {
+    const { data } = await httpService.get(
+      `/api/properties/search?location=${location}&propertyType=${propertyType}`
+    );
+    return data;
+  },
   loadProperties: async (): Promise<Property[]> => {
     const { data } = await httpService.get(`/api/properties`);
     return data;
