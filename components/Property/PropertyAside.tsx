@@ -9,7 +9,7 @@ const PropertyAside: React.FC<{ property: Property }> = ({ property }) => {
     <aside className="space-y-4">
       <BookmarkBtn />
       <ShareBtn property={property} />
-      <ContactForm />/
+      <ContactForm property={property} />/
     </aside>
   );
 };

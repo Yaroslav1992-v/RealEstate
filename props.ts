@@ -120,3 +120,29 @@ export const amenities = [
   "Smart TV",
   "Coffee Maker",
 ];
+export interface IMessage {
+  sender: string;
+  recipient: string;
+  property: string;
+  name: string;
+  email: string;
+  phone?: string;
+  body: string;
+  read?: boolean;
+}
+export interface Message extends Omit<IMessage, "sender" | "property"> {
+  _id: string;
+  sender: { username: string };
+  property: { name: string };
+  createdAt: Date;
+  read: boolean;
+}
+export const newMessage: IMessage = {
+  sender: "",
+  recipient: "",
+  property: "",
+  name: "",
+  email: "",
+  phone: "",
+  body: "",
+};

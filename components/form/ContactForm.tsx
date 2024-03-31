@@ -1,80 +1,107 @@
-import React from "react";
-import BookmarkButton from "../ActionButton";
-import { FaBookmark, FaPaperPlane } from "react-icons/fa";
+"use-client";
+import React, { ChangeEvent, useState } from "react";
+import { FaPaperPlane } from "react-icons/fa";
 import ActionButton from "../ActionButton";
+import { IMessage, Property, newMessage } from "@/props";
+import InputField from "./InputField";
+import TextArea from "./TextArea";
+import messagesService from "@/services/messageService";
+import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
-const ContactForm = () => {
+const ContactForm: React.FC<{ property: Property }> = ({ property }) => {
+  const [message, setMessage] = useState<IMessage>(newMessage);
+  const [wasSubmited, setWasSubmited] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { target } = event;
+    setMessage((prev) => ({
+      ...prev,
+      [target.name]: target.value,
+    }));
+  };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const data: IMessage = {
+      ...message,
+      recipient: property.owner,
+      property: property._id,
+    };
+    try {
+      const res = await messagesService.sendMessage(data);
+      setWasSubmited(true);
+      console.log(res);
+      if (res) {
+        if (res.status === 400 || res.status === 401) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+        }
+      }
+    } catch (error: any) {
+      console.log(error);
+      const msg = error?.response?.data?.message || "Error sending form";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <aside className="space-y-4">
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-bold mb-6">Contact Property Manager</h3>
-        <form>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="name"
-            >
-              Name:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
+        {!session ? (
+          <p>You must be logged in to send a message</p>
+        ) : wasSubmited ? (
+          <p className="text-green-500 mb-4">
+            Your message has been sent successfully
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <InputField
+              onChange={handleChange}
+              label="Name:"
+              name="name"
               placeholder="Enter your name"
-              required
+              value={message.name}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Email:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
+            <InputField
+              onChange={handleChange}
+              label="Email:"
+              name="email"
               placeholder="Enter your email"
-              required
+              value={message.email}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="phone"
-            >
-              Phone:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="phone"
-              type="text"
+            <InputField
+              onChange={handleChange}
+              label="Phone:"
+              name="phone"
               placeholder="Enter your phone number"
+              value={message.phone || ""}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="message"
-            >
-              Message:
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-44 focus:outline-none focus:shadow-outline"
-              id="message"
+            <TextArea
+              name="body"
+              label="Message:"
+              onChange={handleChange}
               placeholder="Enter your message"
-            ></textarea>
-          </div>
-          <div>
-            <ActionButton
-              text="Send Message"
-              className="bg-blue-500 hover:bg-blue-600"
-              action={() => {}}
-              Icon={FaPaperPlane}
+              value={message.body || ""}
+              rows={4}
             />
-          </div>
-        </form>
+            <div>
+              <ActionButton
+                text="Send Message"
+                className="bg-blue-500 hover:bg-blue-600"
+                action={() => {}}
+                Icon={FaPaperPlane}
+                loading={loading}
+              />
+            </div>
+          </form>
+        )}
       </div>
     </aside>
   );

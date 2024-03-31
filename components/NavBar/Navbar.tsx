@@ -41,7 +41,7 @@ const Navbar = () => {
     };
     setAuthProviders();
   }, []);
-
+  // ${typeof id === "string" ? id : id[0]}
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -63,8 +63,9 @@ const Navbar = () => {
           )}
           {session && (
             <DekstopRightMenu
-              id={(session as any["user"]["id"]) || ""}
+              id={(session as any)["user"]["id"] || ""}
               image={session.user?.image || undefined}
+              session={session ? true : false}
             />
           )}
         </div>

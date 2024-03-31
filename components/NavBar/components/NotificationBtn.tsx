@@ -1,7 +1,28 @@
+"use client";
+import messagesService from "@/services/messageService";
 import Link from "next/link";
-import React from "react";
-
-export const NotificationBtn = () => {
+import React, { useEffect } from "react";
+import { useGlobalContext } from "@/context/GlobalContext";
+export const NotificationBtn: React.FC<{ session: boolean }> = ({
+  session,
+}) => {
+  const { unreadCount, setCount } = useGlobalContext();
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    const fetchUnread = async () => {
+      try {
+        const res = await messagesService.getUnreadCount();
+        if (res) {
+          setCount(res.count);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUnread();
+  }, [session]);
   return (
     <Link href="/messages" className="relative group">
       <button
@@ -25,9 +46,11 @@ export const NotificationBtn = () => {
           />
         </svg>
       </button>
-      <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-        2
-      </span>
+      {unreadCount > 0 && (
+        <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+          {unreadCount}
+        </span>
+      )}
     </Link>
   );
 };
