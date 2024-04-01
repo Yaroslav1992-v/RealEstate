@@ -1,14 +1,9 @@
 import connectDB from "@/config/database";
 import User from "@/models/User";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
-export const POST = async (
-  req: NextApiRequest & {
-    json: () => { propertyId: string };
-  },
-  res: NextApiResponse
-) => {
+export const POST = async (req: Request | NextRequest) => {
   try {
     await connectDB();
     const { propertyId } = await req.json();

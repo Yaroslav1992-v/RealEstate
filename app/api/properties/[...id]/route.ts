@@ -3,10 +3,11 @@ import Property from "@/models/Property";
 import connectDB from "@/config/database";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { Property as PropertyData } from "@/props";
+import { NextRequest } from "next/server";
 interface Params {
   params: { id: string };
 }
-export const GET = async (req: NextApiRequest, { params }: Params) => {
+export const GET = async (req: Request | NextRequest, { params }: Params) => {
   try {
     await connectDB();
     const property = await Property.findById((params.id as string) || "");
@@ -19,7 +20,10 @@ export const GET = async (req: NextApiRequest, { params }: Params) => {
     return new Response("something we wrong", { status: 500 });
   }
 };
-export const DELETE = async (req: NextApiRequest, { params }: Params) => {
+export const DELETE = async (
+  req: Request | NextRequest,
+  { params }: Params
+) => {
   try {
     await connectDB();
     const propertyId = params.id;

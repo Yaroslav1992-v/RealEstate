@@ -2,12 +2,13 @@ import connectDB from "@/config/database";
 import Message from "@/models/Message";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 
 interface Params {
   params: { id: string };
 }
 export const dynamic = "force-dynamic";
-export const PUT = async (req: NextApiRequest & Params, res: Params) => {
+export const PUT = async (req: Request | NextRequest, res: Params) => {
   try {
     await connectDB();
     const user = await getSessionUser();
@@ -46,7 +47,7 @@ export const PUT = async (req: NextApiRequest & Params, res: Params) => {
     return new Response("Something went wrong", { status: 500 });
   }
 };
-export const DELETE = async (req: NextApiRequest & Params, res: Params) => {
+export const DELETE = async (req: Request | NextRequest, res: Params) => {
   try {
     await connectDB();
     const user = await getSessionUser();

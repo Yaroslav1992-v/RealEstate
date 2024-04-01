@@ -3,12 +3,11 @@ import Message from "@/models/Message";
 import { IMessage } from "@/props";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const POST = async (
-  req: NextApiRequest & {
-    json: () => { message: IMessage };
-  },
+  req: Request | NextRequest,
   res: NextApiResponse
 ) => {
   try {

@@ -1,6 +1,7 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 interface AddtitionalData {
   url: string;
 }
@@ -8,10 +9,7 @@ interface QueryType {
   $or: {}[];
   type?: RegExp;
 }
-export const GET = async (
-  req: NextApiRequest & AddtitionalData,
-  res: NextApiResponse
-) => {
+export const GET = async (req: Request | NextRequest, res: NextApiResponse) => {
   try {
     await connectDB();
     const { searchParams } = new URL(req.url);
@@ -43,7 +41,7 @@ export const GET = async (
       const typePattern = new RegExp(propertyType, "i");
       query = { ...query, type: typePattern };
     }
-    console.log(query)
+    console.log(query);
     const properties = await Property.find(query);
     console.log(properties);
     return new Response(JSON.stringify(properties), {

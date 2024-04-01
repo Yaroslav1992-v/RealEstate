@@ -2,13 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
 import { newPropertyData } from "@/props";
+import { NextRequest } from "next/server";
 interface Params {
   params: {
     userId: string;
   };
 }
 export const GET = async (
-  req: NextApiRequest,
+  req: Request | NextRequest,
   { params }: NextApiResponse & Params
 ) => {
   try {

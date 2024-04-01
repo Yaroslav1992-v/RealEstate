@@ -4,13 +4,11 @@ import connectDB from "@/config/database";
 import { newPropertyData } from "@/props";
 import { getSessionUser } from "@/utils/getSessionUser";
 import cloudinary from "@/config/cloudinary";
+import { NextRequest } from "next/server";
 interface AddtitionalData {
   url: string;
 }
-export const GET = async (
-  req: NextApiRequest & AddtitionalData,
-  res: NextApiResponse
-) => {
+export const GET = async (req: Request | NextRequest) => {
   try {
     await connectDB();
     const { searchParams } = new URL(req.url);
@@ -30,9 +28,7 @@ export const GET = async (
 };
 
 export const POST = async (
-  req: NextApiRequest & {
-    json: () => { property: newPropertyData; images: File[] };
-  },
+  req: Request | NextRequest,
   res: NextApiResponse
 ) => {
   try {

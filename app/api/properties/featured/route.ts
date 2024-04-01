@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
+import { NextRequest } from "next/server";
 interface AddtitionalData {
   url: string;
 }
-export const GET = async (
-  req: NextApiRequest & AddtitionalData,
-  res: NextApiResponse
-) => {
+export const GET = async (req: Request | NextRequest, res: NextApiResponse) => {
   try {
     await connectDB();
 
