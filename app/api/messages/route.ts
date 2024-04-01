@@ -6,10 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-export const POST = async (
-  req: Request | NextRequest,
-  res: NextApiResponse
-) => {
+export const POST = async (req: Request | NextRequest) => {
   try {
     await connectDB();
     const user = await getSessionUser();
@@ -44,9 +41,7 @@ export const POST = async (
   }
 };
 export const GET = async (
-  req: NextApiRequest,
-
-  res: NextApiResponse
+  req: NextApiRequest
 ) => {
   try {
     await connectDB();

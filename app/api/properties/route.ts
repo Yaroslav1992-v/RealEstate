@@ -27,10 +27,7 @@ export const GET = async (req: Request | NextRequest) => {
   }
 };
 
-export const POST = async (
-  req: Request | NextRequest,
-  res: NextApiResponse
-) => {
+export const POST = async (req: Request | NextRequest) => {
   try {
     await connectDB();
     const user = await getSessionUser();

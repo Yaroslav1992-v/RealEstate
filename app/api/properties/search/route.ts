@@ -1,6 +1,6 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { NextRequest } from "next/server";
 interface AddtitionalData {
   url: string;
@@ -9,7 +9,7 @@ interface QueryType {
   $or: {}[];
   type?: RegExp;
 }
-export const GET = async (req: Request | NextRequest, res: NextApiResponse) => {
+export const GET = async (req: Request | NextRequest) => {
   try {
     await connectDB();
     const { searchParams } = new URL(req.url);
