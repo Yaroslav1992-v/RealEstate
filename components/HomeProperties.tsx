@@ -3,7 +3,7 @@ import PropertyCard from "@/components/PropertyCard";
 import Link from "next/link";
 import { fethProperties } from "@/utils/request";
 const HomeProperties = async () => {
-  const properties = await fethProperties();
+  const { properties } = await fethProperties();
   if (!properties) {
     return <p>no properties</p>;
   }

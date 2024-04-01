@@ -10,7 +10,10 @@ import {
 } from "react-icons/fa";
 import { Property } from "@/props";
 
-const PropertyCard: React.FC<{ property: Property }> = ({ property }) => {
+const PropertyCard: React.FC<{ property: Property; featured?: boolean }> = ({
+  property,
+  featured = false,
+}) => {
   const { images, type, name, rates, beds, baths, square_feet, location, _id } =
     property;
   const getRateDisplay = () => {
@@ -23,22 +26,37 @@ const PropertyCard: React.FC<{ property: Property }> = ({ property }) => {
     }
   };
   return (
-    <div className="rounded-xl shadow-md relative">
+    <div
+      className={
+        "rounded-xl shadow-md relative" +
+        (featured ? " flex bg-white flex-col md:flex-row" : "")
+      }
+    >
       <Image
         src={`${images[0]}`}
-        alt=""
+        alt="property img"
         height={0}
         width={0}
         sizes="100vw"
-        className="w-full h-auto rounded-t-xl"
+        className={
+          "w-full h-auto rounded-t-xl" +
+          (featured
+            ? " object-cover  md:rounded-tr-none md:rounded-l-xl   md:w-2/5"
+            : "")
+        }
       />
       <div className="p-4">
         <div className="text-left md:text-center lg:text-left mb-6">
           <div className="text-gray-600">{type}</div>
           <h3 className="text-xl font-bold">{name}</h3>
         </div>
-        <h3 className="absolute top-[10px] right-[10px] bg-white px-4 py-2 rounded-lg text-blue-500 font-bold text-right md:text-center lg:text-right">
-          {getRateDisplay()}
+        <h3
+          className={
+            "absolute top-[10px]  bg-white px-4 py-2 rounded-lg text-blue-500 font-bold text-right md:text-center lg:text-right" +
+            (featured ? " left-[10px]" : " right-[10px]")
+          }
+        >
+          ${getRateDisplay()}
         </h3>
 
         <div className="flex justify-center gap-4 text-gray-500 mb-4">

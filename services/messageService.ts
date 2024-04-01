@@ -3,7 +3,7 @@ import { IMessage, Message } from "@/props";
 import axios, { AxiosInstance } from "axios";
 
 const http: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_API_DOMAIN,
 });
 const httpService = {
   get: http.get,
@@ -16,25 +16,25 @@ const messagesService = {
   sendMessage: async (
     message: IMessage
   ): Promise<{ data: { message: string }; status: number } | undefined> => {
-    const { data, status } = await httpService.post(`/api/messages`, {
+    const { data, status } = await httpService.post(`/messages`, {
       message,
     });
     return { data, status };
   },
   fetchMessages: async (): Promise<Message[]> => {
-    const { data } = await httpService.get(`/api/messages`);
+    const { data } = await httpService.get(`/messages`);
     return data;
   },
   markAsRead: async (id: string): Promise<Message> => {
-    const { data } = await httpService.put(`/api/messages/${id}`);
+    const { data } = await httpService.put(`/messages/${id}`);
     return data;
   },
   deleteMessage: async (id: string): Promise<Message> => {
-    const { data } = await httpService.delete(`/api/messages/${id}`);
+    const { data } = await httpService.delete(`/messages/${id}`);
     return data;
   },
   getUnreadCount: async (): Promise<{ count: number }> => {
-    const { data } = await httpService.get(`/api/messages/unreadCount`);
+    const { data } = await httpService.get(`/messages/unreadCount`);
     return data;
   },
 };

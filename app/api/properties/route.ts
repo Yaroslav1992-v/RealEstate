@@ -4,13 +4,26 @@ import connectDB from "@/config/database";
 import { newPropertyData } from "@/props";
 import { getSessionUser } from "@/utils/getSessionUser";
 import cloudinary from "@/config/cloudinary";
-
-export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
+interface AddtitionalData {
+  url: string;
+}
+export const GET = async (
+  req: NextApiRequest & AddtitionalData,
+  res: NextApiResponse
+) => {
   try {
     await connectDB();
-
-    const properties = await Property.find({});
-    return new Response(JSON.stringify(properties), { status: 200 });
+    const { searchParams } = new URL(req.url);
+    const page = Number(searchParams.get("page")) || 1;
+    const pageSize = Number(searchParams.get("pageSize")) || 6;
+    const skip = (page - 1) * pageSize;
+    const total = await Property.countDocuments({});
+    const properties = await Property.find({}).skip(skip).limit(pageSize);
+    const result = {
+      properties,
+      total,
+    };
+    return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     return new Response("something we wrong", { status: 500 });
   }

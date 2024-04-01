@@ -3,7 +3,7 @@ import { convertImages } from "@/utils/convertImages";
 import axios, { AxiosInstance } from "axios";
 
 const http: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_API_DOMAIN,
 });
 const httpService = {
   get: http.get,
@@ -13,12 +13,21 @@ const httpService = {
   patch: http.patch,
 };
 const propertyService = {
+  fetchProperties: async (
+    page: number,
+    pageSize: number
+  ): Promise<{ properties: Property[]; total: number } | undefined> => {
+    const { data } = await httpService.get(
+      `/properties?page=${page}&pageSize=${pageSize}`
+    );
+    return data;
+  },
   createProperty: async (
     property: newPropertyData,
     images: File[]
   ): Promise<Property | undefined> => {
     const convertedImages = await convertImages(images);
-    const { data } = await httpService.post(`/api/properties`, {
+    const { data } = await httpService.post(`/properties`, {
       property,
       images: convertedImages,
     });
@@ -28,7 +37,7 @@ const propertyService = {
     userId: string
   ): Promise<Property[] | undefined> => {
     try {
-      const { data } = await httpService.get(`/api/properties/user/${userId}`);
+      const { data } = await httpService.get(`/properties/user/${userId}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -36,7 +45,7 @@ const propertyService = {
   },
   loadProperty: async (id: string): Promise<Property | undefined> => {
     try {
-      const { data } = await httpService.get(`/api/properties/${id}`);
+      const { data } = await httpService.get(`/properties/${id}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -47,19 +56,23 @@ const propertyService = {
     propertyType: string
   ): Promise<Property[]> => {
     const { data } = await httpService.get(
-      `/api/properties/search?location=${location}&propertyType=${propertyType}`
+      `/properties/search?location=${location}&propertyType=${propertyType}`
     );
     return data;
   },
   loadProperties: async (): Promise<Property[]> => {
-    const { data } = await httpService.get(`/api/properties`);
+    const { data } = await httpService.get(`/properties`);
+    return data;
+  },
+  loadFeaturedProperties: async (): Promise<Property[]> => {
+    const { data } = await httpService.get(`/properties/featured`);
     return data;
   },
   deleteProperty: async (
     id: string
   ): Promise<{ data: string; status: number } | undefined> => {
     try {
-      const data = await httpService.delete(`/api/properties/${id}`);
+      const data = await httpService.delete(`/properties/${id}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -68,7 +81,7 @@ const propertyService = {
   updateProperty: async (property: Property): Promise<Property | undefined> => {
     try {
       const { data } = await httpService.put(
-        `/api/properties/${property._id}`,
+        `/properties/${property._id}`,
         property
       );
       return data;

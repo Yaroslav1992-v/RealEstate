@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import "@/assets/styles/globals.css";
+import "photoswipe/dist/photoswipe.css";
 import Navbar from "@/components/NavBar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import AuthProvider from "@/components/AuthProvider";

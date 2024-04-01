@@ -1,9 +1,12 @@
 import { Property } from "@/props";
 const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
-export async function fethProperties(): Promise<Property[]> {
+export async function fethProperties(): Promise<{
+  properties: Property[];
+  total: number;
+}> {
   try {
     if (!apiDomain) {
-      return [];
+      return { properties: [], total: 0 };
     }
     const res = await fetch(`${apiDomain}/properties`, { cache: "no-store" });
     if (!res.ok) {
@@ -12,7 +15,7 @@ export async function fethProperties(): Promise<Property[]> {
     return res.json();
   } catch (error) {
     console.log(error);
-    return [];
+    return { properties: [], total: 0 };
   }
 }
 
