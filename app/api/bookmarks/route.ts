@@ -38,7 +38,7 @@ export const POST = async (req: Request | NextRequest) => {
     return new Response("Something went wrong", { status: 500 });
   }
 };
-export const GET = async (req: NextApiRequest) => {
+export const GET = async () => {
   try {
     await connectDB();
 

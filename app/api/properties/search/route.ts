@@ -1,10 +1,6 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
-import { NextApiResponse } from "next";
 import { NextRequest } from "next/server";
-interface AddtitionalData {
-  url: string;
-}
 interface QueryType {
   $or: {}[];
   type?: RegExp;

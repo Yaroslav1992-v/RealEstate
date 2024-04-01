@@ -1,8 +1,6 @@
 import connectDB from "@/config/database";
 import Message from "@/models/Message";
-import { IMessage } from "@/props";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -40,9 +38,7 @@ export const POST = async (req: Request | NextRequest) => {
     return new Response(error as string, { status: 500 });
   }
 };
-export const GET = async (
-  req: NextApiRequest
-) => {
+export const GET = async () => {
   try {
     await connectDB();
 

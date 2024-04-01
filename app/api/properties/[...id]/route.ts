@@ -1,8 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { Property as PropertyData } from "@/props";
+
 import { NextRequest } from "next/server";
 interface Params {
   params: { id: string };
@@ -41,12 +40,7 @@ export const DELETE = async (
     return new Response("something we wrong", { status: 500 });
   }
 };
-export const PUT = async (
-  req: NextApiRequest & {
-    json: () => { property: PropertyData };
-  },
-  { params }: Params
-) => {
+export const PUT = async (req: Request | NextRequest, { params }: Params) => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();

@@ -1,13 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
 import { newPropertyData } from "@/props";
 import { getSessionUser } from "@/utils/getSessionUser";
 import cloudinary from "@/config/cloudinary";
 import { NextRequest } from "next/server";
-interface AddtitionalData {
-  url: string;
-}
+
 export const GET = async (req: Request | NextRequest) => {
   try {
     await connectDB();

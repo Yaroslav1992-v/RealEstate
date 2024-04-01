@@ -1,10 +1,6 @@
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
-import { NextRequest } from "next/server";
-interface AddtitionalData {
-  url: string;
-}
-export const GET = async (req: Request | NextRequest) => {
+export const GET = async () => {
   try {
     await connectDB();
 

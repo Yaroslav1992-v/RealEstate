@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import Property from "@/models/Property";
 import connectDB from "@/config/database";
-import { newPropertyData } from "@/props";
+
 import { NextRequest } from "next/server";
 interface Params {
   params: {
