@@ -1,8 +1,8 @@
 import React from "react";
-import { MenuItemProps } from "../NavBar/props";
+import { FotterItemPops } from "../NavBar/props";
 import Link from "next/link";
 
-const FooterLink: React.FC<MenuItemProps> = ({ text, href }) => {
+const FooterLink: React.FC<FotterItemPops> = ({ text, href }) => {
   return (
     <li>
       <Link href={href}>{text}</Link>

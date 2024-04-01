@@ -3,6 +3,9 @@ export interface MenuItemProps {
   requiresAuth?: boolean;
   action: (() => void) | string;
 }
+export interface FotterItemPops extends MenuItemProps {
+  href: string;
+}
 export interface AuthProvider {
   id: string;
   name: string;
